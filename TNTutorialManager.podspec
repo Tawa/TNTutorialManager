@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name				= 'TNTutorialManager'
-	s.version			= '1.0.1'
+	s.version			= '1.0.2'
 	s.summary			= 'Tutorial Handler that helps you implement interactive tutorials inside your iOS Apps.'
 
 	s.description		= "TNTutorialManager is a manager that helps you implement interactive tutorials inside your iOS Apps."
@@ -15,5 +15,6 @@ Pod::Spec.new do |s|
 
 	s.subspec 'TNTutorialManager' do |ss|
 		ss.source_files = 'TNTutorialManager'
+		ss.resource = 'TNTutorialManager/TNTutorialShaders.metal'
 	end
 end
