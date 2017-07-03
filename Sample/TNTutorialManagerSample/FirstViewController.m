@@ -62,6 +62,15 @@
 	return nil;
 }
 
+-(NSArray<TNTutorialEdgeInsets *> *)tutorialViewsEdgeInsets:(NSInteger)index
+{
+	if (index == 1) {
+		return @[TNTutorialEdgeInsetsMake(8, 8, 8, 8)];
+	}
+
+	return nil;
+}
+
 -(NSArray<NSNumber *> *)tutorialTextPositions:(NSInteger)index
 {
 	return @[@(TNTutorialTextPositionTop)];

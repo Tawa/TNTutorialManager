@@ -14,9 +14,7 @@
 
 @end
 
-//TNTutorialEdgeInsets *TNTutorialEdgeInsetsMake(CGFloat top, CGFloat left, CGFloat bottom, CGFloat right) {
-//	return [[TNTutorialEdgeInsets alloc] initWithEdgeInsets:UIEdgeInsetsMake(top, left, bottom, right)];
-//}
+#define TNTutorialEdgeInsetsMake(top,left,bottom,right) [[TNTutorialEdgeInsets alloc] initWithEdgeInsets:UIEdgeInsetsMake(top, left, bottom, right)]
 
 
 typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
