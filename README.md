@@ -86,4 +86,4 @@ The repository comes with a sample project that gives you an example of how to i
 
 ## Notes
 
-Feel free to use 'TNKeyboardControlWindow' in any way you like. An attribution is not required, but is highly appreciated.
+Feel free to use 'TNTutorialManager' in any way you like. An attribution is not required, but is highly appreciated.
