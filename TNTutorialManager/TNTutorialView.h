@@ -6,6 +6,8 @@
 //  Copyright © 2017 Tawa Nicolas. All rights reserved.
 //
 
+#define TN_DISABLE_METAL YES
+
 #import <UIKit/UIKit.h>
 
 @interface TNTutorialView : UIView

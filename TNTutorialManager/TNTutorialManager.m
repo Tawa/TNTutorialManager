@@ -6,8 +6,6 @@
 //  Copyright © 2017 Tawa Nicolas. All rights reserved.
 //
 
-#define TN_DISABLE_METAL 1
-
 #import "TNTutorialManager.h"
 #import "TNTutorialView.h"
 #import "UIView+TNScreenshotView.h"
