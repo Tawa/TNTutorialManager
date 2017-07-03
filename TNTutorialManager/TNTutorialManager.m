@@ -35,7 +35,7 @@
 
 @interface TNTutorialManager ()
 {
-#if !(TN_DISABLE_METAL)
+#if (TN_DISABLE_METAL)
 	TNTutorialView *tutorialView;
 #else
 	UIImageView *tutorialView;
@@ -59,7 +59,7 @@
 		self.delegate = delegate;
 		
 		tutorialSkipButton = nil;
-#if !(TN_DISABLE_METAL)
+#if (TN_DISABLE_METAL)
 		tutorialView = [TNTutorialView instance];
 #else
 		tutorialView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -74,7 +74,7 @@
 
 -(void)highlightViews:(NSArray <UIView *> *)views
 {
-#if !(TN_DISABLE_METAL)
+#if (TN_DISABLE_METAL)
 	tutorialView.image = [[self.delegate tutorialMasterView] toImage];
 #endif
 	
@@ -312,7 +312,7 @@
 	}
 #endif
 	
-#if !(TN_DISABLE_METAL)
+#if (TN_DISABLE_METAL)
 	tutorialView.overlay = image;
 #else
 	tutorialView.image = image;
