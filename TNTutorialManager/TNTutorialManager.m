@@ -10,7 +10,7 @@
 #import "TNTutorialView.h"
 #import "UIView+TNScreenshotView.h"
 
-#define TN_DISABLE_METAL TARGET_IPHONE_SIMULATOR
+//#define TN_DISABLE_METAL 1
 
 @implementation TNTutorialEdgeInsets
 {
@@ -37,11 +37,11 @@
 
 @interface TNTutorialManager ()
 {
-#if !(TN_DISABLE_METAL)
-	TNTutorialView *tutorialView;
-#else
+//#if !(TN_DISABLE_METAL)
+//	TNTutorialView *tutorialView;
+//#else
 	UIImageView *tutorialView;
-#endif
+//#endif
 	NSArray <UIView *> *tutorialViewsToMask;
 	NSMutableArray <UILabel *> *tutorialLabels;
 	UIButton *tutorialSkipButton;
@@ -61,12 +61,12 @@
 		self.delegate = delegate;
 		
 		tutorialSkipButton = nil;
-#if !(TN_DISABLE_METAL)
-		tutorialView = [TNTutorialView instance];
-#else
+//#if !(TN_DISABLE_METAL)
+//		tutorialView = [TNTutorialView instance];
+//#else
 		tutorialView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
 		[tutorialView setBackgroundColor:[UIColor clearColor]];
-#endif
+//#endif
 		
 		tutorialLabels = [NSMutableArray array];
 	}
@@ -76,9 +76,9 @@
 
 -(void)highlightViews:(NSArray <UIView *> *)views
 {
-#if !(TN_DISABLE_METAL)
-	tutorialView.image = [[self.delegate tutorialMasterView] toImage];
-#endif
+//#if !(TN_DISABLE_METAL)
+//	tutorialView.image = [[self.delegate tutorialMasterView] toImage];
+//#endif
 	
 	[tutorialView setUserInteractionEnabled:YES];
 	[[self.delegate tutorialMasterView] addSubview:tutorialView];
@@ -275,7 +275,7 @@
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
-#if (TN_DISABLE_METAL)
+//#if (TN_DISABLE_METAL)
 	{
 		CGSize size = image.size;
 		int width = size.width;
@@ -312,13 +312,13 @@
 		
 		image = returnImage;
 	}
-#endif
-	
-#if !(TN_DISABLE_METAL)
-	tutorialView.overlay = image;
-#else
+//#endif
+//	
+//#if !(TN_DISABLE_METAL)
+//	tutorialView.overlay = image;
+//#else
 	tutorialView.image = image;
-#endif
+//#endif
 	[tutorialView setNeedsDisplay];
 	
 	if ((![self.delegate respondsToSelector:@selector(tutorialHasSkipButton:)] || [self.delegate tutorialHasSkipButton:[self currentIndex]]) && [self currentIndex] < [self.delegate tutorialMaxIndex]-1) {
