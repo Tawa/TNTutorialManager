@@ -8,7 +8,7 @@
 
 #import "TNTutorialView.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TN_DISABLE_METAL)
 
 @import MetalKit;
 
@@ -73,6 +73,10 @@ const float vertexData[] = {
 		vertexBuffer = [device newBufferWithBytes:vertexData length:dataSize options:0];
 		
 		id<MTLLibrary> defaultLibrary = [device newDefaultLibrary];
+		NSError *error = nil;
+		if (error) {
+			NSLog(@"Error: %@", [error localizedDescription]);
+		}
 		id<MTLFunction> fragmentProgram = [defaultLibrary newFunctionWithName:@"tntutorial_fragment"];
 		id<MTLFunction> vertexProgram = [defaultLibrary newFunctionWithName:@"tntutorial_vertex"];
 		
@@ -81,7 +85,6 @@ const float vertexData[] = {
 		pipelineStateDescriptor.vertexFunction = vertexProgram;
 		pipelineStateDescriptor.colorAttachments[0].pixelFormat = MTLPixelFormatBGRA8Unorm;
 		
-		NSError *error = nil;
 		pipelineState = [device newRenderPipelineStateWithDescriptor:pipelineStateDescriptor error:&error];
 		if (error) {
 			NSLog(@"Error making render pipeline state: %@", [error localizedDescription]);

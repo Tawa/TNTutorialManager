@@ -10,6 +10,8 @@
 #import "TNTutorialView.h"
 #import "UIView+TNScreenshotView.h"
 
+#define TN_DISABLE_METAL 1
+
 @implementation TNTutorialEdgeInsets
 {
 	UIEdgeInsets insets;
@@ -35,7 +37,7 @@
 
 @interface TNTutorialManager ()
 {
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TN_DISABLE_METAL)
 	TNTutorialView *tutorialView;
 #else
 	UIImageView *tutorialView;
@@ -59,7 +61,7 @@
 		self.delegate = delegate;
 		
 		tutorialSkipButton = nil;
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TN_DISABLE_METAL)
 		tutorialView = [TNTutorialView instance];
 #else
 		tutorialView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -74,7 +76,7 @@
 
 -(void)highlightViews:(NSArray <UIView *> *)views
 {
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TN_DISABLE_METAL)
 	tutorialView.image = [[self.delegate tutorialMasterView] toImage];
 #endif
 	
@@ -273,7 +275,7 @@
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
-#if (TARGET_IPHONE_SIMULATOR)
+#if (TN_DISABLE_METAL)
 	{
 		CGSize size = image.size;
 		int width = size.width;
@@ -312,7 +314,7 @@
 	}
 #endif
 	
-#if !(TARGET_IPHONE_SIMULATOR)
+#if !(TN_DISABLE_METAL)
 	tutorialView.overlay = image;
 #else
 	tutorialView.image = image;
