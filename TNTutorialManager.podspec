@@ -14,7 +14,6 @@ Pod::Spec.new do |s|
 	s.ios.deployment_target = '8.0'
 
 	s.subspec 'TNTutorialManager' do |ss|
-		ss.source_files = 'TNTutorialManager'
-		ss.resource = 'TNTutorialManager/TNTutorialShaders.metal'
+		ss.source_files = 'TNTutorialManager/*.{h,m,metal}'
 	end
 end
