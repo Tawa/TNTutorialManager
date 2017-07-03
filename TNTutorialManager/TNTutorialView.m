@@ -8,7 +8,7 @@
 
 #import "TNTutorialView.h"
 
-#if (TN_DISABLE_METAL)
+#if !(TN_DISABLE_METAL)
 
 @import MetalKit;
 
