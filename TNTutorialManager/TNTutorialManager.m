@@ -7,10 +7,7 @@
 //
 
 #import "TNTutorialManager.h"
-#import "TNTutorialView.h"
 #import "UIView+TNScreenshotView.h"
-
-//#define TN_DISABLE_METAL 1
 
 @implementation TNTutorialEdgeInsets
 {
@@ -37,11 +34,9 @@
 
 @interface TNTutorialManager ()
 {
-//#if !(TN_DISABLE_METAL)
-//	TNTutorialView *tutorialView;
-//#else
-	UIImageView *tutorialView;
-//#endif
+	UIView *tutorialView;
+	UIView *tutorialBlurView;
+	UIViewPropertyAnimator *animator;
 	NSArray <UIView *> *tutorialViewsToMask;
 	NSMutableArray <UILabel *> *tutorialLabels;
 	UIButton *tutorialSkipButton;
@@ -61,12 +56,23 @@
 		self.delegate = delegate;
 		
 		tutorialSkipButton = nil;
-//#if !(TN_DISABLE_METAL)
-//		tutorialView = [TNTutorialView instance];
-//#else
-		tutorialView = [[UIImageView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-		[tutorialView setBackgroundColor:[UIColor clearColor]];
-//#endif
+		tutorialView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
+		[tutorialView setBackgroundColor:[UIColor colorWithWhite:0 alpha:0.5]];
+		
+		tutorialBlurView = [[UIView alloc] initWithFrame:tutorialView.bounds];
+		[tutorialBlurView setBackgroundColor:[UIColor clearColor]];
+		
+		[tutorialView insertSubview:tutorialBlurView atIndex:0];
+		
+		UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+		UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] init];
+		
+		animator = [[UIViewPropertyAnimator alloc] initWithDuration:1 curve:UIViewAnimationCurveLinear animations:^{
+			visualEffectView.effect = blurEffect;
+		}];
+		
+		visualEffectView.frame = tutorialBlurView.bounds;
+		[tutorialBlurView addSubview:visualEffectView];
 		
 		tutorialLabels = [NSMutableArray array];
 	}
@@ -76,12 +82,10 @@
 
 -(void)highlightViews:(NSArray <UIView *> *)views
 {
-//#if !(TN_DISABLE_METAL)
-//	tutorialView.image = [[self.delegate tutorialMasterView] toImage];
-//#endif
-	
 	[tutorialView setUserInteractionEnabled:YES];
-	[[self.delegate tutorialMasterView] addSubview:tutorialView];
+	if (tutorialView.superview == nil) {
+		[[self.delegate tutorialMasterView] addSubview:tutorialView];
+	}
 	tutorialViewsToMask = views;
 	
 	if (tutorialSkipButton == nil) {
@@ -113,6 +117,8 @@
 	[tutorialView addGestureRecognizer:tap];
 	
 	tutorialView.alpha = 0;
+	[tutorialView setHidden:NO];
+	[self updateAnimator];
 	[UIView animateWithDuration:0.3 animations:^{
 		tutorialView.alpha = 1;
 	}];
@@ -275,7 +281,6 @@
 	UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
-//#if (TN_DISABLE_METAL)
 	{
 		CGSize size = image.size;
 		int width = size.width;
@@ -297,7 +302,7 @@
 					linePointer[2] = 0;
 					linePointer[3] = 0;
 				} else {
-					linePointer[3] = 192;
+					linePointer[3] = 255;
 				}
 				linePointer += 4;
 			}
@@ -312,14 +317,16 @@
 		
 		image = returnImage;
 	}
-//#endif
-//	
-//#if !(TN_DISABLE_METAL)
-//	tutorialView.overlay = image;
-//#else
-	tutorialView.image = image;
-//#endif
+	
 	[tutorialView setNeedsDisplay];
+	
+	{
+		CALayer* maskLayer = [CALayer layer];
+		maskLayer.frame = CGRectMake(0, 0, tutorialView.frame.size.width, tutorialView.frame.size.height);
+		maskLayer.contents = (__bridge id)[image CGImage];
+		
+		tutorialView.layer.mask = maskLayer;
+	}
 	
 	if ((![self.delegate respondsToSelector:@selector(tutorialHasSkipButton:)] || [self.delegate tutorialHasSkipButton:[self currentIndex]]) && [self currentIndex] < [self.delegate tutorialMaxIndex]-1) {
 		UIFont *font;
@@ -374,6 +381,7 @@
 -(void)updateTutorial:(id)sender
 {
 	BOOL update = YES;
+	BOOL wrapUp = NO;
 	if ([self.delegate respondsToSelector:@selector(tutorialWaitAfterAction:)]) {
 		update = ![self.delegate tutorialWaitAfterAction:[self currentIndex]];
 	}
@@ -383,11 +391,12 @@
 		}
 		[self increaseIndex];
 		if ([self currentIndex] >= [self.delegate tutorialMaxIndex]) {
-			[self.delegate tutorialWrapUp];
 			update = NO;
+			wrapUp = YES;
 		}
 	} else if ([self currentIndex] >= [self.delegate tutorialMaxIndex]) {
 		update = NO;
+		wrapUp = YES;
 	}
 	if (tutorialSkipButton) {
 		[tutorialSkipButton removeFromSuperview];
@@ -397,9 +406,12 @@
 		[UIView animateWithDuration:0.3 animations:^{
 			tutorialView.alpha = 0;
 		} completion:^(BOOL finished) {
-			[tutorialView removeFromSuperview];
+			[tutorialView setHidden:YES];
 			if (update) {
 				[self updateHighlights];
+			}
+			if (wrapUp) {
+				[self wrapUp];
 			}
 		}];
 	} else {
@@ -426,6 +438,18 @@
 {
 	[self maximizeIndex];
 	[self updateTutorial:nil];
+}
+
+-(void)updateAnimator
+{
+	animator.fractionComplete = 0.05;
+}
+
+-(void)wrapUp
+{
+	[animator stopAnimation:YES];
+	animator = nil;
+	[tutorialView removeFromSuperview];
 	[self.delegate tutorialWrapUp];
 }
 
