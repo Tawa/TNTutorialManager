@@ -4,7 +4,7 @@
 TNTutorialManager is an easy to implement library that helps you create interactive tutorials inside your iOS Apps!
 
 ![](https://thumbs.gfycat.com/RectangularCalculatingJackal-size_restricted.gif)
-> Full resolution gif [here](https://gfycat.com/RectangularCalculatingJackal).
+> Full resolution gif <a href="https://gfycat.com/RectangularCalculatingJackal" target="_blank">here</a>.
 
 ## Installation
 
