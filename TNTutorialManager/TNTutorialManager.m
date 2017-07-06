@@ -40,6 +40,8 @@
 	NSArray <UIView *> *tutorialViewsToMask;
 	NSMutableArray <UILabel *> *tutorialLabels;
 	UIButton *tutorialSkipButton;
+	
+	CGFloat blurConstant;
 }
 
 @end
@@ -48,7 +50,7 @@
 
 @synthesize tutorialView;
 
--(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate
+-(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate blurFactor:(CGFloat)blurFactor
 {
 	self = [super init];
 	
@@ -75,9 +77,16 @@
 		[tutorialBlurView addSubview:visualEffectView];
 		
 		tutorialLabels = [NSMutableArray array];
+		
+		blurConstant = blurFactor;
 	}
 	
 	return self;
+}
+
+-(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate
+{
+	return [self initWithDelegate:delegate blurFactor:0.05];
 }
 
 -(void)highlightViews:(NSArray <UIView *> *)views
@@ -86,6 +95,15 @@
 	if (tutorialView.superview == nil) {
 		[[self.delegate tutorialMasterView] addSubview:tutorialView];
 	}
+	
+	UIColor *tintColor = nil;
+	if ([self.delegate respondsToSelector:@selector(tutorialTint:)]) {
+		tintColor = [self.delegate tutorialTint:[self currentIndex]];
+	} else {
+		tintColor = [UIColor colorWithWhite:0 alpha:0.5];
+	}
+	[tutorialView setBackgroundColor:tintColor];
+	
 	tutorialViewsToMask = views;
 	
 	if (tutorialSkipButton == nil) {
@@ -186,8 +204,8 @@
 					label.layer.shadowColor = [[UIColor blackColor] CGColor];
 					
 					NSArray <UIFont *> *fonts = nil;
-					if ([self.delegate respondsToSelector:@selector(tutorialTextsFont:)]) {
-						fonts = [self.delegate tutorialTextsFont:[self currentIndex]];
+					if ([self.delegate respondsToSelector:@selector(tutorialTextFonts:)]) {
+						fonts = [self.delegate tutorialTextFonts:[self currentIndex]];
 					}
 					UIFont *font;
 					if (fonts && [fonts count] > i) {
@@ -195,7 +213,20 @@
 					} else {
 						font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
 					}
-
+					[label setFont:font];
+					
+					NSArray *colors = nil;
+					if ([self.delegate respondsToSelector:@selector(tutorialTextColors:)]) {
+						colors = [self.delegate tutorialTextColors:[self currentIndex]];
+					}
+					UIColor *color;
+					if (colors && [colors count] > 0) {
+						color = colors[i];
+					} else {
+						color = [UIColor whiteColor];
+					}
+					[label setTextColor:color];
+					
 					[label setNumberOfLines:0];
 					[label setText:text];
 					NSDictionary *attributes = @{NSFontAttributeName: label.font};
@@ -249,16 +280,28 @@
 		label.layer.shadowColor = [[UIColor blackColor] CGColor];
 
 		NSArray <UIFont *> *fonts = nil;
-		if ([self.delegate respondsToSelector:@selector(tutorialTextsFont:)]) {
-			fonts = [self.delegate tutorialTextsFont:[self currentIndex]];
+		if ([self.delegate respondsToSelector:@selector(tutorialTextFonts:)]) {
+			fonts = [self.delegate tutorialTextFonts:[self currentIndex]];
 		}
 		UIFont *font;
 		if (fonts && [fonts count] > 0) {
 			font = fonts[0];
-			[label setFont:font];
 		} else {
 			font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
 		}
+		[label setFont:font];
+		
+		NSArray *colors = nil;
+		if ([self.delegate respondsToSelector:@selector(tutorialTextColors:)]) {
+			colors = [self.delegate tutorialTextColors:[self currentIndex]];
+		}
+		UIColor *color;
+		if (colors && [colors count] > 0) {
+			color = colors[0];
+		} else {
+			color = [UIColor whiteColor];
+		}
+		[label setTextColor:color];
 		
 		[label setNumberOfLines:0];
 		[label setText:text];
@@ -442,7 +485,7 @@
 
 -(void)updateAnimator
 {
-	animator.fractionComplete = 0.05;
+	animator.fractionComplete = blurConstant;
 }
 
 -(void)wrapUp

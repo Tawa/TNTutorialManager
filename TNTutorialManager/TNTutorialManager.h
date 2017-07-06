@@ -71,7 +71,9 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
 -(NSArray <NSString *> *)tutorialTexts:(NSInteger)index;
 -(NSArray <TNTutorialEdgeInsets *> *)tutorialViewsEdgeInsets:(NSInteger)index;
 -(NSArray <NSNumber *> *)tutorialTextPositions:(NSInteger)index;
--(NSArray <UIFont *> *)tutorialTextsFont:(NSInteger)index;
+-(NSArray <UIFont *> *)tutorialTextFonts:(NSInteger)index;
+-(NSArray <UIColor *> *)tutorialTextColors:(NSInteger)index;
+-(UIColor *)tutorialTint:(NSInteger)index;
 
 // Implement this method in case you wish to force the user to go through tutorial.
 -(BOOL)tutorialHasSkipButton:(NSInteger)index;
@@ -95,6 +97,8 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
 @property (weak, nonatomic) id<TNTutorialManagerDelegate> delegate;
 
 -(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate;
+
+-(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate blurFactor:(CGFloat)blurFactor;
 
 -(void)updateTutorial;
 

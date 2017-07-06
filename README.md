@@ -3,7 +3,8 @@
 ## Summary
 TNTutorialManager is an easy to implement library that helps you create interactive tutorials inside your iOS Apps!
 
-![](https://giant.gfycat.com/AstonishingDimpledGraywolf.gif)
+![](https://thumbs.gfycat.com/RectangularCalculatingJackal-size_restricted.gif)
+> Full resolution gif [here](https://gfycat.com/RectangularCalculatingJackal).
 
 ## Installation
 
@@ -37,6 +38,9 @@ The method `tutorialMasterView` should return the UIView that will add the tutor
 The method `tutorialWrapUp` should do the code that takes care of ending the tutorial, like setting the `tutorialManager` to nil and re-enabling UserInteraction.
 The method `tutorialMaxIndex` should return how many steps the tutorial have.
 
+Creating your TNTutorialManager object is as easy as `tutorialManager = [[TNTutorialManager alloc] initWithDelegate:self];`
+> In order to change the Blur intensity you can instead use `-(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate blurFactor:(CGFloat)blurFactor;` where `blurFactor` is a value between `0` and `1`. The default value is `0.1`
+
 The other optional methods will help you easily make an interactive tutorial:
 ```objective-c
 /**
@@ -66,7 +70,9 @@ The other optional methods will help you easily make an interactive tutorial:
 -(NSArray <NSString *> *)tutorialTexts:(NSInteger)index;
 -(NSArray <TNTutorialEdgeInsets *> *)tutorialViewsEdgeInsets:(NSInteger)index;
 -(NSArray <NSNumber *> *)tutorialTextPositions:(NSInteger)index;
--(NSArray <UIFont *> *)tutorialTextsFont:(NSInteger)index;
+-(NSArray <UIFont *> *)tutorialTextFonts:(NSInteger)index;
+-(NSArray <UIColor *> *)tutorialTextColors:(NSInteger)index;
+-(UIColor *)tutorialTint:(NSInteger)index;
 
 // Implement this method in case you wish to force the user to go through tutorial.
 -(BOOL)tutorialHasSkipButton:(NSInteger)index;

@@ -23,7 +23,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	if ([TNTutorialManager shouldDisplayTutorial:self]) {
-		tutorialManager = [[TNTutorialManager alloc] initWithDelegate:self];
+		tutorialManager = [[TNTutorialManager alloc] initWithDelegate:self blurFactor:0.1];
 	} else {
 		tutorialManager = nil;
 	}
@@ -101,7 +101,7 @@
 	return [UIFont systemFontOfSize:25 weight:UIFontWeightBold];
 }
 
--(NSArray<UIFont *> *)tutorialTextsFont:(NSInteger)index
+-(NSArray<UIFont *> *)tutorialTextFonts:(NSInteger)index
 {
 	if (index == 0) {
 		return @[[UIFont systemFontOfSize:35.f weight:UIFontWeightBold]];

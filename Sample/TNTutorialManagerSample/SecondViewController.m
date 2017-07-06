@@ -140,7 +140,34 @@
 	return nil;
 }
 
--(NSArray<UIFont *> *)tutorialTextsFont:(NSInteger)index
+-(UIColor *)tutorialTint:(NSInteger)index
+{
+	if (index == 0) {
+		return [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+	} else if (index == 1) {
+		return [UIColor colorWithRed:0 green:1 blue:0 alpha:0.5];
+	} else if (index == 2) {
+		return [UIColor colorWithRed:0 green:0 blue:1 alpha:0.5];
+	} else if (index == 3) {
+		return [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+	} else if (index == 4) {
+		return [UIColor colorWithRed:1 green:0 blue:1 alpha:0.5];
+	} else if (index == 5) {
+		return [UIColor colorWithRed:0 green:1 blue:1 alpha:0.5];
+	}
+	
+	return nil;
+}
+
+-(NSArray<UIColor *> *)tutorialTextColors:(NSInteger)index
+{
+	if (index == 0) {
+		return @[[UIColor greenColor], [UIColor blueColor]];
+	}
+	return nil;
+}
+
+-(NSArray<UIFont *> *)tutorialTextFonts:(NSInteger)index
 {
 	if (index == 5) {
 		return @[[UIFont systemFontOfSize:30 weight:UIFontWeightBold]];
