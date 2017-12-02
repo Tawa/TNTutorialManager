@@ -100,6 +100,8 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
 
 -(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate blurFactor:(CGFloat)blurFactor;
 
+-(NSInteger)currentIndex;
+
 -(void)updateTutorial;
 
 +(BOOL)shouldDisplayTutorial:(id<TNTutorialManagerDelegate>)delegate;
