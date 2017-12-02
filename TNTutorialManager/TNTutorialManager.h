@@ -102,6 +102,8 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
 
 -(NSInteger)currentIndex;
 
+-(void)resetIndex;
+
 -(void)updateTutorial;
 
 +(BOOL)shouldDisplayTutorial:(id<TNTutorialManagerDelegate>)delegate;
