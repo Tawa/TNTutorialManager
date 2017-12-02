@@ -528,6 +528,11 @@
 	return [[NSUserDefaults standardUserDefaults] integerForKey:[self identifier]];
 }
 
+-(void)resetIndex
+{
+	[[NSUserDefaults standardUserDefaults] setInteger:0 forKey:[self identifier]];
+}
+
 -(void)increaseIndex
 {
 	[[NSUserDefaults standardUserDefaults] setInteger:[self currentIndex]+1 forKey:[self identifier]];
