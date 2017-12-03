@@ -7,7 +7,6 @@
 //
 
 #import "TNTutorialManager.h"
-#import "UIView+TNScreenshotView.h"
 
 @implementation TNTutorialEdgeInsets
 {
@@ -45,6 +44,7 @@
 	
 	UIWindow *tutorialWindow;
 	UIViewController *tutorialViewController;
+	UIVisualEffectView *visualEffectView;
 }
 
 @end
@@ -70,7 +70,7 @@
 		[tutorialView insertSubview:tutorialBlurView atIndex:0];
 		
 		UIVisualEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
-		UIVisualEffectView *visualEffectView = [[UIVisualEffectView alloc] init];
+		visualEffectView = [[UIVisualEffectView alloc] init];
 		
 		animator = [[UIViewPropertyAnimator alloc] initWithDuration:1 curve:UIViewAnimationCurveLinear animations:^{
 			visualEffectView.effect = blurEffect;
@@ -82,9 +82,16 @@
 		tutorialLabels = [NSMutableArray array];
 		
 		blurConstant = blurFactor;
+		
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOrientationChange:) name:UIDeviceOrientationDidChangeNotification object:nil];
 	}
 	
 	return self;
+}
+
+-(void)dealloc
+{
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate
@@ -423,6 +430,15 @@
 	}
 }
 
+-(void)handleOrientationChange:(NSNotification *)notification
+{
+	tutorialView.frame = [UIScreen mainScreen].bounds;
+	tutorialBlurView.frame = [UIScreen mainScreen].bounds;
+	visualEffectView.frame = tutorialBlurView.bounds;
+
+	[self performHighlight];
+}
+
 -(void)startTutorial
 {
 	[self performHighlight];
@@ -445,7 +461,7 @@
 	[self performSelector:@selector(performHighlight) withObject:nil afterDelay:delay];
 }
 
--(void)updateTutorial:(id)sender
+-(void)updateTutorial:(UITapGestureRecognizer *)sender
 {
 	BOOL update = YES;
 	BOOL wrapUp = NO;
