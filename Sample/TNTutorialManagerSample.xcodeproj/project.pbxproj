@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		382AC6BE1FD4405D00BDE12D /* TNTutorialManager.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 382AC6BD1FD4405C00BDE12D /* TNTutorialManager.podspec */; };
+		382AC6C01FD4427900BDE12D /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 382AC6BF1FD4427900BDE12D /* README.md */; };
 		38AD3A221F09E4CF003C4498 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AD3A211F09E4CF003C4498 /* DetailsViewController.m */; };
 		38E9F8CB1F0059A70008FB02 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9F8CA1F0059A70008FB02 /* main.m */; };
 		38E9F8CE1F0059A70008FB02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9F8CD1F0059A70008FB02 /* AppDelegate.m */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		382AC6BD1FD4405C00BDE12D /* TNTutorialManager.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TNTutorialManager.podspec; path = ../../TNTutorialManager.podspec; sourceTree = "<group>"; };
+		382AC6BF1FD4427900BDE12D /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../../README.md; sourceTree = "<group>"; };
 		38AD3A201F09E4CF003C4498 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		38AD3A211F09E4CF003C4498 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		38E9F8C61F0059A70008FB02 /* TNTutorialManagerSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TNTutorialManagerSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -69,6 +71,7 @@
 		38E9F8C81F0059A70008FB02 /* TNTutorialManagerSample */ = {
 			isa = PBXGroup;
 			children = (
+				382AC6BF1FD4427900BDE12D /* README.md */,
 				382AC6BD1FD4405C00BDE12D /* TNTutorialManager.podspec */,
 				38E9F8E61F0059DA0008FB02 /* TNTutorialManager */,
 				38E9F8CC1F0059A70008FB02 /* AppDelegate.h */,
@@ -167,6 +170,7 @@
 			files = (
 				38E9F8DC1F0059A70008FB02 /* LaunchScreen.storyboard in Resources */,
 				38E9F8D91F0059A70008FB02 /* Assets.xcassets in Resources */,
+				382AC6C01FD4427900BDE12D /* README.md in Resources */,
 				382AC6BE1FD4405D00BDE12D /* TNTutorialManager.podspec in Resources */,
 				38E9F8D71F0059A70008FB02 /* Main.storyboard in Resources */,
 			);
