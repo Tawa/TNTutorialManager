@@ -81,9 +81,9 @@
 	return 0;
 }
 
--(UIView *)tutorialMasterView
+-(BOOL)tutorialShouldCoverStatusBar
 {
-	return self.tabBarController.view;
+	return YES;
 }
 
 -(void)tutorialWrapUp
