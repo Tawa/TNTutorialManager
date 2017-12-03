@@ -24,17 +24,20 @@ In order to add a tutorial for your specific ViewController all you need to do i
 #### Objective-c
 ```objective-c
 -(UIView *)tutorialMasterView;
+-(BOOL)tutorialShouldCoverStatusBar;
 -(void)tutorialWrapUp;
 -(NSInteger)tutorialMaxIndex;
 ```
 #### Swift
 ```swift
 func tutorialMasterView() -> UIView!
+func tutorialShouldCoverStatusBar() -> Bool
 func tutorialWrapUp()
 func tutorialMaxIndex() -> Int
 ```
 
 The method `tutorialMasterView` should return the UIView that will add the tutorial view as a subview.
+The method `tutorialShouldCoverStatusBar` if implemented and returns `YES` or `true`, makes the manager ignore `tutorialMasterView` and create its own window that will be displayed over the status bar.
 The method `tutorialWrapUp` should do the code that takes care of ending the tutorial, like setting the `tutorialManager` to nil and re-enabling UserInteraction.
 The method `tutorialMaxIndex` should return how many steps the tutorial have.
 

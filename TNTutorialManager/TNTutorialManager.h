@@ -38,12 +38,21 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
  */
 -(NSInteger)tutorialMaxIndex;
 
+@optional
+
+// The tutorial's container view should be one of the following two
+// - You MUST implement one of them.
+// - Implementing tutorialShouldCoverStatusBar makes the manager ignore tutorialMasterView.
 /**
  The tutorialMasterView is the UIView that will add the tutorialView as a subview.
  */
 -(UIView *)tutorialMasterView;
 
-@optional
+/**
+ Implementing this method and returning YES would make the tutorialView has its own window, which will be displayed above the status bar.
+ */
+-(BOOL)tutorialShouldCoverStatusBar;
+
 /**
  Perform actions for a tutorial step, example: Tap a certain button.
  */

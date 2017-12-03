@@ -42,6 +42,9 @@
 	UIButton *tutorialSkipButton;
 	
 	CGFloat blurConstant;
+	
+	UIWindow *tutorialWindow;
+	UIViewController *tutorialViewController;
 }
 
 @end
@@ -89,11 +92,32 @@
 	return [self initWithDelegate:delegate blurFactor:0.05];
 }
 
+-(UIView *)tutorialContainer
+{
+	if ([self.delegate respondsToSelector:@selector(tutorialShouldCoverStatusBar)] &&
+		[self.delegate tutorialShouldCoverStatusBar]) {
+		if (tutorialViewController == nil) {
+			tutorialViewController = [[UIViewController alloc] init];
+			tutorialViewController.view.backgroundColor = [UIColor clearColor];
+		}
+		if (tutorialWindow == nil) {
+			tutorialWindow = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+			tutorialWindow.rootViewController = tutorialViewController;
+			tutorialWindow.windowLevel = UIWindowLevelStatusBar + 1;
+			[tutorialWindow makeKeyAndVisible];
+		}
+		
+		return tutorialViewController.view;
+	} else {
+		return [self.delegate tutorialMasterView];
+	}
+}
+
 -(void)highlightViews:(NSArray <UIView *> *)views
 {
 	[tutorialView setUserInteractionEnabled:YES];
 	if (tutorialView.superview == nil) {
-		[[self.delegate tutorialMasterView] addSubview:tutorialView];
+		[[self tutorialContainer] addSubview:tutorialView];
 	}
 	
 	UIColor *tintColor = nil;
@@ -126,7 +150,7 @@
 		[tutorialSkipButton setTitle:skipTitle forState:UIControlStateNormal];
 		[tutorialSkipButton setTitleColor:skipColor forState:UIControlStateNormal];
 		
-		[[self.delegate tutorialMasterView] addSubview:tutorialSkipButton];
+		[[self tutorialContainer] addSubview:tutorialSkipButton];
 	}
 	
 	[self setupLayout];
@@ -169,7 +193,7 @@
 	if ([tutorialViewsToMask count] > 0) {
 		for (int i = 0; i < [tutorialViewsToMask count]; i++) {
 			UIView *view = tutorialViewsToMask[i];
-			frame = [[self.delegate tutorialMasterView] convertRect:[view frame] fromView:view.superview];
+			frame = [[self tutorialContainer] convertRect:[view frame] fromView:view.superview];
 			
 			if (edgeInsetsArray) {
 				UIEdgeInsets edgeInsets = [edgeInsetsArray[i] insets];
@@ -493,6 +517,10 @@
 	[animator stopAnimation:YES];
 	animator = nil;
 	[tutorialView removeFromSuperview];
+	[tutorialWindow removeFromSuperview];
+	tutorialWindow = nil;
+	tutorialViewController = nil;
+	
 	[self.delegate tutorialWrapUp];
 }
 
