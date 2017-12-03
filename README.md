@@ -1,7 +1,7 @@
 # TNTutorialManager
 
 ## Summary
-TNTutorialManager is an easy to implement library that helps you create interactive tutorials inside your iOS Apps!
+TNTutorialManager is an easy to implement library that helps you create interactive On Boarding and Tutorials inside your iOS Apps!
 
 ![](https://thumbs.gfycat.com/RectangularCalculatingJackal-size_restricted.gif)
 > Full resolution gif <a href="https://gfycat.com/RectangularCalculatingJackal" target="_blank">here</a>.
@@ -12,7 +12,7 @@ TNTutorialManager is an easy to implement library that helps you create interact
 Download the folder 'TNTutorialManager' and add the files to your project.
 > Objective-C only
 
-#### Coacoapods
+#### Cocoapods
 Add the following line to your Podfile
 ```ruby
 pod 'TNTutorialManager'
