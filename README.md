@@ -67,6 +67,12 @@ The other optional methods will help you easily make an interactive tutorial:
 -(BOOL)tutorialWaitAfterAction:(NSInteger)index;
 
 /**
+ Implementing this gives you the ability to force the user to tap on highlighted views instead of anywhere.
+ If there are no views highlighted in a certain tutorial step, this will be ignored, and the user will be able to tap anywhere.
+ */
+-(BOOL)tutorialAcceptTapsOnHighlightsOnly:(NSInteger)index;
+
+/**
  Methods used for building Tutorial UI.
  */
 -(NSArray <UIView *> *)tutorialViewsToHighlight:(NSInteger)index;
