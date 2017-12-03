@@ -116,6 +116,15 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
 -(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate blurFactor:(CGFloat)blurFactor;
 
 /**
+ This returns the current index of the tutorial.
+ */
+-(NSInteger)currentIndex;
+/**
+ This resets the tutorial index, in case you need to reset the tutorials for your app.
+ */
+-(void)resetIndex;
+
+/**
  This method updates the tutorial manager internally, goes to the proper screen, etc...
  */
 -(void)updateTutorial;
