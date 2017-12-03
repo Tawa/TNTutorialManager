@@ -49,6 +49,11 @@
 	return nil;
 }
 
+-(BOOL)tutorialAcceptTapsOnHighlightsOnly:(NSInteger)index
+{
+	return YES;
+}
+
 -(NSArray<NSString *> *)tutorialTexts:(NSInteger)index
 {
 	if (index == 0) {

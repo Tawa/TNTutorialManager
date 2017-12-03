@@ -463,6 +463,29 @@
 
 -(void)updateTutorial:(UITapGestureRecognizer *)sender
 {
+	if (sender && [self.delegate respondsToSelector:@selector(tutorialAcceptTapsOnHighlightsOnly:)]) {
+		NSArray <UIView *> *viewsToHighlight;
+		if ([self.delegate respondsToSelector:@selector(tutorialViewsToHighlight:)]) {
+			viewsToHighlight = [self.delegate tutorialViewsToHighlight:[self currentIndex]];
+			CGPoint tapLocation = [sender locationInView:sender.view];
+			BOOL shouldAcceptTaps = NO;
+			if (viewsToHighlight) {
+				for (UIView *view in viewsToHighlight) {
+					CGRect frame = [[self tutorialContainer] convertRect:[view frame] fromView:view.superview];
+					if (CGRectContainsPoint(frame, tapLocation)) {
+						shouldAcceptTaps = YES;
+						break;
+					}
+				}
+			} else {
+				shouldAcceptTaps = YES;
+			}
+			if (!shouldAcceptTaps) {
+				return;
+			}
+		}
+	}
+	
 	BOOL update = YES;
 	BOOL wrapUp = NO;
 	if ([self.delegate respondsToSelector:@selector(tutorialWaitAfterAction:)]) {
