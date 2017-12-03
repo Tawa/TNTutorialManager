@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 	s.name				= 'TNTutorialManager'
-	s.version			= '1.2'
+	s.version			= '1.3'
 	s.summary			= 'Tutorial Handler that helps you implement interactive tutorials inside your iOS Apps.'
 
 	s.description		= "TNTutorialManager is a manager that helps you implement interactive tutorials inside your iOS Apps."
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 	s.source			= { :git => 'https://github.com/Tawa/TNTutorialManager', :tag => s.version.to_s }
 	s.social_media_url	= 'https://twitter.com/TawaNicolas'
 
-	s.ios.deployment_target = '8.0'
+	s.ios.deployment_target = '10.0'
 
 	s.subspec 'TNTutorialManager' do |ss|
 		ss.source_files = 'TNTutorialManager'
