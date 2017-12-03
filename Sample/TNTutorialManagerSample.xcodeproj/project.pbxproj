@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		38AB00E21F028CAC0066243E /* UIView+TNScreenshotView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AB00E11F028CAC0066243E /* UIView+TNScreenshotView.m */; };
 		38AD3A221F09E4CF003C4498 /* DetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38AD3A211F09E4CF003C4498 /* DetailsViewController.m */; };
 		38E9F8CB1F0059A70008FB02 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9F8CA1F0059A70008FB02 /* main.m */; };
 		38E9F8CE1F0059A70008FB02 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 38E9F8CD1F0059A70008FB02 /* AppDelegate.m */; };
@@ -20,8 +19,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		38AB00E01F028CAC0066243E /* UIView+TNScreenshotView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIView+TNScreenshotView.h"; path = "../../TNTutorialManager/UIView+TNScreenshotView.h"; sourceTree = "<group>"; };
-		38AB00E11F028CAC0066243E /* UIView+TNScreenshotView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIView+TNScreenshotView.m"; path = "../../TNTutorialManager/UIView+TNScreenshotView.m"; sourceTree = "<group>"; };
 		38AD3A201F09E4CF003C4498 /* DetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DetailsViewController.h; sourceTree = "<group>"; };
 		38AD3A211F09E4CF003C4498 /* DetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetailsViewController.m; sourceTree = "<group>"; };
 		38E9F8C61F0059A70008FB02 /* TNTutorialManagerSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TNTutorialManagerSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -101,8 +98,6 @@
 			children = (
 				38E9F8E31F0059D60008FB02 /* TNTutorialManager.h */,
 				38E9F8E41F0059D60008FB02 /* TNTutorialManager.m */,
-				38AB00E01F028CAC0066243E /* UIView+TNScreenshotView.h */,
-				38AB00E11F028CAC0066243E /* UIView+TNScreenshotView.m */,
 			);
 			name = TNTutorialManager;
 			sourceTree = "<group>";
@@ -133,7 +128,7 @@
 		38E9F8BE1F0059A70008FB02 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Tawa Nicolas";
 				TargetAttributes = {
 					38E9F8C51F0059A70008FB02 = {
@@ -183,7 +178,6 @@
 				38E9F8D41F0059A70008FB02 /* SecondViewController.m in Sources */,
 				38E9F8CE1F0059A70008FB02 /* AppDelegate.m in Sources */,
 				38E9F8D11F0059A70008FB02 /* FirstViewController.m in Sources */,
-				38AB00E21F028CAC0066243E /* UIView+TNScreenshotView.m in Sources */,
 				38AD3A221F09E4CF003C4498 /* DetailsViewController.m in Sources */,
 				38E9F8CB1F0059A70008FB02 /* main.m in Sources */,
 				38E9F8E51F0059D60008FB02 /* TNTutorialManager.m in Sources */,
@@ -222,7 +216,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -230,7 +226,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -271,7 +271,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -279,7 +281,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
