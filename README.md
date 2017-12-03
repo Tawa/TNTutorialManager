@@ -136,6 +136,12 @@ func tutorialPreActionDelay(_ index: UInt) -> CGFloat
 func tutorialWait(afterAction index: Int) -> Bool
 
 /**
+ Implementing this gives you the ability to force the user to tap on highlighted views instead of anywhere.
+ If there are no views highlighted in a certain tutorial step, this will be ignored, and the user will be able to tap anywhere.
+ */
+func tutorialAcceptTaps(onHighlightsOnly index: Int) -> Bool
+
+/**
  Methods used for building Tutorial UI.
  */
 func tutorialViews(toHighlight index: Int) -> [UIView]!
