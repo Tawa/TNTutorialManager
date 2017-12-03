@@ -115,8 +115,17 @@ typedef NS_ENUM(NSInteger, TNTutorialTextPosition) {
 
 -(instancetype)initWithDelegate:(id<TNTutorialManagerDelegate>)delegate blurFactor:(CGFloat)blurFactor;
 
+/**
+ This method updates the tutorial manager internally, goes to the proper screen, etc...
+ */
 -(void)updateTutorial;
 
+/**
+ This class method is used in order to find out if the current view controller is done with the tutorial or should create a manager.
+
+ @param delegate - This is the view controller that would be creating the manager.
+ @return BOOL
+ */
 +(BOOL)shouldDisplayTutorial:(id<TNTutorialManagerDelegate>)delegate;
 
 @end
