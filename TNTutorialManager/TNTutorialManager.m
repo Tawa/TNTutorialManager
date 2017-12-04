@@ -469,7 +469,7 @@
 			viewsToHighlight = [self.delegate tutorialViewsToHighlight:[self currentIndex]];
 			CGPoint tapLocation = [sender locationInView:sender.view];
 			BOOL shouldAcceptTaps = NO;
-			if (viewsToHighlight) {
+			if (viewsToHighlight && viewsToHighlight.count) {
 				for (UIView *view in viewsToHighlight) {
 					CGRect frame = [[self tutorialContainer] convertRect:[view frame] fromView:view.superview];
 					if (CGRectContainsPoint(frame, tapLocation)) {
