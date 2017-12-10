@@ -273,6 +273,15 @@
 						width = [UIScreen mainScreen].bounds.size.width - frame.origin.y - frame.size.width - 16.f;
 					}
 					
+					if (@available(iOS 11.0, *)) {
+					    UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+					    if(keyWindow){
+						UIEdgeInsets safeAreaInsets = keyWindow.safeAreaInsets;
+						CGFloat SAFE_WIDTH = [UIScreen mainScreen].bounds.size.width - safeAreaInsets.left - safeAreaInsets.right;
+						width = MIN(width, SAFE_WIDTH);
+					    }
+					}
+					
 					CGRect rect = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
 					
 					if (pos == TNTutorialTextPositionTop) {
@@ -340,6 +349,16 @@
 		NSDictionary *attributes = @{NSFontAttributeName: label.font};
 		
 		CGFloat width = [UIScreen mainScreen].bounds.size.width-16.f;
+		
+		if (@available(iOS 11.0, *)) {
+		    UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+		    if(keyWindow){
+			UIEdgeInsets safeAreaInsets = keyWindow.safeAreaInsets;
+			CGFloat SAFE_WIDTH = [UIScreen mainScreen].bounds.size.width - safeAreaInsets.left - safeAreaInsets.right;
+			width = MIN(width, SAFE_WIDTH);
+		    }
+		}
+		
 		CGRect rect = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
 										 options:NSStringDrawingUsesLineFragmentOrigin
 									  attributes:attributes
