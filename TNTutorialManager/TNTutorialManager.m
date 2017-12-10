@@ -45,8 +45,6 @@
 	UIWindow *tutorialWindow;
 	UIViewController *tutorialViewController;
 	UIVisualEffectView *visualEffectView;
-	
-	UIInterfaceOrientation currentOrientation;
 }
 
 @end
@@ -86,8 +84,6 @@
 		blurConstant = blurFactor;
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleOrientationChange:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
-		
-		currentOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 	}
 	
 	return self;
