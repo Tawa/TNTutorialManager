@@ -182,7 +182,7 @@
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	CGContextSetFillColorWithColor(context, [[UIColor whiteColor] CGColor]);
-	CGRect frame;
+	CGRect highlightFrame;
 	
 	NSArray <NSString *> *texts = nil;
 	if ([self.delegate respondsToSelector:@selector(tutorialTexts:)]) {
@@ -196,31 +196,36 @@
 	if ([self.delegate respondsToSelector:@selector(tutorialViewsEdgeInsets:)]) {
 		edgeInsetsArray = [self.delegate tutorialViewsEdgeInsets:[self currentIndex]];
 	}
-	
+    
+    CGFloat SCREEN_WIDTH = [UIScreen mainScreen].bounds.size.width;
+    CGFloat SCREEN_HEIGHT = [UIScreen mainScreen].bounds.size.height;
+    CGFloat SCREEN_LEFT_PADDING = 8.f;
+    CGFloat SCREEN_RIGHT_PADDING = SCREEN_LEFT_PADDING;
+    
 	if ([tutorialViewsToMask count] > 0) {
 		for (int i = 0; i < [tutorialViewsToMask count]; i++) {
 			UIView *view = tutorialViewsToMask[i];
-			frame = [[self tutorialContainer] convertRect:[view frame] fromView:view.superview];
+			highlightFrame = [[self tutorialContainer] convertRect:[view frame] fromView:view.superview];
 			
 			if (edgeInsetsArray) {
 				UIEdgeInsets edgeInsets = [edgeInsetsArray[i] insets];
 				if (edgeInsets.top) {
-					frame.origin.y -= edgeInsets.top;
-					frame.size.height += edgeInsets.top;
+					highlightFrame.origin.y -= edgeInsets.top;
+					highlightFrame.size.height += edgeInsets.top;
 				}
 				if (edgeInsets.bottom) {
-					frame.size.height += edgeInsets.bottom;
+					highlightFrame.size.height += edgeInsets.bottom;
 				}
 				if (edgeInsets.left) {
-					frame.origin.x -= edgeInsets.left;
-					frame.size.width += edgeInsets.left;
+					highlightFrame.origin.x -= edgeInsets.left;
+					highlightFrame.size.width += edgeInsets.left;
 				}
 				if (edgeInsets.right) {
-					frame.size.width += edgeInsets.right;
+					highlightFrame.size.width += edgeInsets.right;
 				}
 			}
 			
-			CGContextFillRect(context, frame);
+			CGContextFillRect(context, highlightFrame);
 			
 			if (texts && [texts count] > i) {
 				NSString *text = texts[i];
@@ -261,39 +266,59 @@
 					[label setNumberOfLines:0];
 					[label setText:text];
 					NSDictionary *attributes = @{NSFontAttributeName: label.font};
-					CGFloat width = [UIScreen mainScreen].bounds.size.width - 16.f;
+                    
+                                        CGFloat TEXT_LEFT_PADDING = 8.f;
+                                        CGFloat TEXT_RIGHT_PADDING = TEXT_LEFT_PADDING;
+                                        CGFloat TEXT_TOP_PADDING = 8.f;
+                                        CGFloat TEXT_BOTTOM_PADDING = TEXT_TOP_PADDING;
+                    
 					NSNumber *position = nil;
 					if (positions && [positions count] > i) {
 						position = positions[i];
 					}
 					TNTutorialTextPosition pos = position?[position integerValue]:TNTutorialTextPositionTop;
-					if (pos == TNTutorialTextPositionLeft) {
-						width = frame.origin.y - 16.f;
-					} else if (pos == TNTutorialTextPositionRight) {
-						width = [UIScreen mainScreen].bounds.size.width - frame.origin.y - frame.size.width - 16.f;
-					}
+                    
+                                        CGFloat textWidth;
+                                        if (pos == TNTutorialTextPositionTop || pos == TNTutorialTextPositionBottom) {
+                                            textWidth = SCREEN_WIDTH - (SCREEN_LEFT_PADDING + SCREEN_RIGHT_PADDING);
+                                        } else {
+                                            textWidth = (pos == TNTutorialTextPositionLeft) ?
+                                                highlightFrame.origin.y - (TEXT_LEFT_PADDING + TEXT_RIGHT_PADDING) :
+                                                SCREEN_WIDTH - highlightFrame.origin.y - highlightFrame.size.width - (TEXT_LEFT_PADDING + TEXT_RIGHT_PADDING);
+                                        }
+                                        
+                                        if (@available(iOS 11.0, *)) {
+                                            UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+                                            if(keyWindow){
+                                                UIEdgeInsets safeAreaInsets = keyWindow.safeAreaInsets;
+                                                CGFloat SAFE_WIDTH = SCREEN_WIDTH - (safeAreaInsets.left + safeAreaInsets.right);
+                                                textWidth = MIN(textWidth, SAFE_WIDTH);
+                                            }
+                                        }
 					
-					CGRect rect = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:attributes context:nil];
-					
-					if (pos == TNTutorialTextPositionTop) {
-						rect.origin.y = frame.origin.y - rect.size.height - 8;
-						rect.origin.x = frame.origin.x + frame.size.width * 0.5f - rect.size.width * 0.5f;
-					} else if (pos == TNTutorialTextPositionBottom) {
-						rect.origin.y = frame.origin.y + frame.size.height + 8.f;
-						rect.origin.x = frame.origin.x + frame.size.width * 0.5f - rect.size.width * 0.5f;
-					} else if (pos == TNTutorialTextPositionLeft) {
-						rect.origin.y = frame.origin.y + frame.size.height * 0.5f - rect.size.height * 0.5f;
-						rect.origin.x = frame.origin.x - 8.f - rect.size.width;
-					} else if (pos == TNTutorialTextPositionRight) {
-						rect.origin.y = frame.origin.y + frame.size.height * 0.5f - rect.size.height * 0.5f;
-						rect.origin.x = frame.origin.x + frame.size.width + 8.f;
+					CGRect textFrame = [text boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX) options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading) attributes:attributes context:nil];
+                    
+                                        if (pos == TNTutorialTextPositionTop || pos == TNTutorialTextPositionBottom) {
+                                            textFrame.origin.x = highlightFrame.origin.x + highlightFrame.size.width * 0.5f - textFrame.size.width * 0.5f;
+                                            
+                                            textFrame.origin.y = (pos == TNTutorialTextPositionTop) ?
+                                                highlightFrame.origin.y - textFrame.size.height - TEXT_BOTTOM_PADDING :
+                                                highlightFrame.origin.y + highlightFrame.size.height + TEXT_TOP_PADDING;
+                                        } else if (pos == TNTutorialTextPositionLeft || pos == TNTutorialTextPositionRight) {
+                                            textFrame.origin.y = highlightFrame.origin.y + highlightFrame.size.height * 0.5f - textFrame.size.height * 0.5f;
+                                            
+                                            textFrame.origin.x = (pos == TNTutorialTextPositionLeft) ?
+                                                highlightFrame.origin.x - TEXT_RIGHT_PADDING - textFrame.size.width :
+                                                highlightFrame.origin.x + highlightFrame.size.width + TEXT_LEFT_PADDING;
+                                        }
+                    
+					if (textFrame.origin.x < SCREEN_LEFT_PADDING) {
+						textFrame.origin.x = SCREEN_LEFT_PADDING;
+					} else if (textFrame.origin.x + textFrame.size.width > SCREEN_WIDTH - SCREEN_RIGHT_PADDING) {
+						textFrame.origin.x = SCREEN_WIDTH - SCREEN_RIGHT_PADDING - textFrame.size.width;
 					}
-					if (rect.origin.x < 8.f) {
-						rect.origin.x = 8.f;
-					} else if (rect.origin.x + rect.size.width > [UIScreen mainScreen].bounds.size.width - 8.f) {
-						rect.origin.x = [UIScreen mainScreen].bounds.size.width - 8.f - rect.size.width;
-					}
-					[label setFrame:rect];
+                    
+					[label setFrame:textFrame];
 					[tutorialView addSubview:label];
 					[tutorialLabels addObject:label];
 				}
@@ -339,12 +364,22 @@
 		[label setTextAlignment:NSTextAlignmentCenter];
 		NSDictionary *attributes = @{NSFontAttributeName: label.font};
 		
-		CGFloat width = [UIScreen mainScreen].bounds.size.width-16.f;
-		CGRect rect = [text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+		CGFloat textWidth = SCREEN_WIDTH - (SCREEN_LEFT_PADDING + SCREEN_RIGHT_PADDING);
+        
+                if (@available(iOS 11.0, *)) {
+                    UIWindow *keyWindow = [[[UIApplication sharedApplication] delegate] window];
+                    if(keyWindow){
+                        UIEdgeInsets safeAreaInsets = keyWindow.safeAreaInsets;
+                        CGFloat SAFE_WIDTH = [UIScreen mainScreen].bounds.size.width - safeAreaInsets.left - safeAreaInsets.right;
+                        textWidth = MIN(textWidth, SAFE_WIDTH);
+                    }
+                }
+        
+		CGRect rect = [text boundingRectWithSize:CGSizeMake(textWidth, CGFLOAT_MAX)
 										 options:NSStringDrawingUsesLineFragmentOrigin
 									  attributes:attributes
 										 context:nil];
-		CGPoint center = CGPointMake([UIScreen mainScreen].bounds.size.width*0.5, [UIScreen mainScreen].bounds.size.height*0.5);
+		CGPoint center = CGPointMake(SCREEN_WIDTH*0.5, SCREEN_HEIGHT*0.5);
 		rect.origin.x = center.x-rect.size.width*0.5f;
 		rect.origin.y = center.y-rect.size.height*0.5f;
 		[label setFrame:rect];
@@ -417,13 +452,18 @@
 		} else {
 			skipTitle = @"Skip";
 		}
-		frame = [skipTitle boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, CGFLOAT_MAX)
+		highlightFrame = [skipTitle boundingRectWithSize:CGSizeMake(SCREEN_WIDTH, CGFLOAT_MAX)
 										options:NSStringDrawingUsesLineFragmentOrigin
 									 attributes:attributes
 										context:nil];
-		frame = CGRectMake(ceil([UIScreen mainScreen].bounds.size.width-frame.size.width)-16, 20, ceil(frame.size.width), 44);
+		highlightFrame = CGRectMake(
+                                    ceil(SCREEN_WIDTH - highlightFrame.size.width) - (SCREEN_LEFT_PADDING + SCREEN_RIGHT_PADDING), // x
+                                    20, // y
+                                    ceil(highlightFrame.size.width), // width
+                                    44 // height
+                                    );
 		[tutorialSkipButton.titleLabel setFont:font];
-		[tutorialSkipButton setFrame:frame];
+		[tutorialSkipButton setFrame:highlightFrame];
 		[tutorialSkipButton setHidden:NO];
 	} else {
 		[tutorialSkipButton setHidden:YES];
