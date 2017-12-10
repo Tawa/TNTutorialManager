@@ -140,6 +140,15 @@
 	return nil;
 }
 
+-(BOOL)tutorialAcceptTapsOnHighlightsOnly:(NSInteger)index
+{
+	if (index == 4) {
+		return YES;
+	}
+	return NO;
+}
+
+
 -(UIColor *)tutorialTint:(NSInteger)index
 {
 	if (index == 0) {
